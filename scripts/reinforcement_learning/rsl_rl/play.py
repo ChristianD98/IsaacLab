@@ -137,6 +137,7 @@ def main():
         with torch.inference_mode():
             # agent stepping
             actions = policy(obs)
+            print("Action générée par la policy:", actions.cpu().numpy())
             # env stepping
             obs, _, _, _ = env.step(actions)
         if args_cli.video:
