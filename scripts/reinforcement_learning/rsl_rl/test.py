@@ -78,21 +78,38 @@ def main():
     timestep = 0
     env_unwrapped = env.unwrapped
     action = torch.zeros((env_unwrapped.num_envs, env_unwrapped.action_space.shape[1]),device=env_unwrapped.device)
-    #steering
-    action[0, 0] = 0  # lf
-    action[0, 1] = 0  # lh
-    action[0, 2] = 0  # rf
-    action[0, 3] = 0  # rh
-    # driving
-    action[0, 4] = 0 # lf
-    action[0, 5] = -0 # lh
-    action[0, 6] = 0  # rf
-    action[0, 7] = -0  # rh
-    print("Action appliquée:", action.cpu().numpy())
+
+    # speed = 0
+    # turn = 0.5
+    # #steering
+    # action[0, 0] = -turn  # lf
+    # action[0, 1] = -turn  # lh
+    # action[0, 2] = turn  # rf
+    # action[0, 3] = turn  # rh
+    # # driving
+    # action[0, 4] = speed # lf
+    # action[0, 5] = -speed # lh
+    # action[0, 6] = speed  # rf
+    # action[0, 7] = -speed  # rh
+    action[0,0] = 0.5
+    action[0,1] = 0
+
     while simulation_app.is_running():
         # step simulation avec l'action définie
         obs = env_unwrapped.step(action)
-        #print("Observation : ", obs)
+
+        # policy = obs[0]["policy"]
+        #
+        # print("🔸 velocity:", policy[:, 0:3])  # self.vel_loc → 3
+        # print("🔸 angular velocity:", policy[:, 3:6])  # self.angvel_loc * scale → 3
+        # print("🔸 yaw:", policy[:, 6:7])  # normalize_angle(self.yaw) → 1
+        # print("🔸 roll:", policy[:, 7:8])  # normalize_angle(self.roll) → 1
+        # print("🔸 angle_to_target:", policy[:, 8:9])  # normalize_angle(self.angle_to_target) → 1
+        # print("🔸 up projection:", policy[:, 9:10])  # self.up_proj → 1
+        # print("🔸 heading projection:", policy[:, 10:11])  # self.heading_proj → 1
+        # print("🔸 dof_vel_scaled:", policy[:, 11:19])  # 8 DoFs → 8
+        # print("🔸 actions:", policy[:, 19:27])  # 8 actions → 8
+        # print("🔸 lidar:", policy[:, 27:])
 
         simulation_app.update()
     # close the simulator

@@ -7,10 +7,12 @@
 
 from __future__ import annotations
 
+from enum import Enum
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
+
 
 ##
 # Configuration
@@ -50,14 +52,16 @@ XPLORE_ROVER_CFG = ArticulationCfg(
     actuators={
         "steering": ImplicitActuatorCfg(
             joint_names_expr=["steering_.*_joint"],
-            stiffness=20,
-            damping=5,
+            stiffness=100,
+            damping=10,
+            effort_limit = 20,
         ),
         "driving": ImplicitActuatorCfg(
             joint_names_expr=["driving_.*_joint"],
-            stiffness=1.5,
+            stiffness=0,
             damping=2,
+            effort_limit = 100,
+
         ),
     },
 )
-"""Configuration for the Mujoco Ant robot."""
